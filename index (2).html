@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Celestial Birthday For You ✨</title>
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN for modern utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            cursive: ['"Great Vibes"', 'cursive'],
+          },
+          colors: {
+            cosmic: {
+              950: '#05050B',
+              900: '#0B0A16',
+              800: '#14122B',
+              border: 'rgba(255, 255, 255, 0.08)',
+            },
+            accent: {
+              rose: '#FB7185',
+              violet: '#A855F7',
+              gold: '#FBBF24',
+              cyan: '#38BDF8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Modern Glassmorphism & Keyframes */
+    :root {
+      --glow-color: rgba(244, 63, 94, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: #05050B;
+      color: #F8FAFC;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Ambient noise & background glow */
+    .bg-mesh {
+      background: 
+        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(251, 113, 133, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(56, 189, 248, 0.06) 0px, transparent 65%),
+        radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.1) 0px, transparent 50%);
+    }
+
+    /* Ultra-modern 2025 Glass Cards */
+    .glass-card {
+      background: rgba(18, 16, 38, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 60px rgba(168, 85, 247, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Fluid Cursor Glow */
+    #cursor-glow {
+      pointer-events: none;
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 113, 133, 0.08) 0%, rgba(168, 85, 247, 0.04) 40%, transparent 70%);
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      transition: width 0.3s, height 0.3s;
+    }
+
+    /* Animated gradient text */
+    .text-gradient {
+      background: linear-gradient(135deg, #FFF 20%, #FDA4AF 60%, #C084FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gold {
+      background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 3D Candle & Flame */
+    .flame {
+      width: 14px;
+      height: 28px;
+      background: linear-gradient(to bottom, #FFF 0%, #FBBF24 40%, #EF4444 90%);
+      border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+      box-shadow: 0 0 20px 4px #F59E0B, 0 0 45px 12px rgba(239, 68, 68, 0.4);
+      animation: flicker 1.4s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .flame.extinguished {
+      opacity: 0;
+      transform: scale(0.2) translateY(-20px);
+      pointer-events: none;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-1deg); }
+      50% { transform: scale(1.06, 0.95) rotate(2deg); }
+      100% { transform: scale(0.96, 1.04) rotate(-2deg); }
+    }
+
+    /* Smoke plume after blow */
+    .smoke {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(200, 200, 220, 0.5);
+      border-radius: 50%;
+      filter: blur(3px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes smokeDrift {
+      0% { opacity: 0.8; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--dx), -70px) scale(4); }
+    }
+
+    /* Wax seal open animation */
+    .wax-seal {
+      box-shadow: 0 8px 25px rgba(225, 29, 72, 0.45);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .wax-seal:hover {
+      transform: scale(1.08) rotate(4deg);
+      box-shadow: 0 12px 30px rgba(225, 29, 72, 0.6);
+    }
+
+    /* Smooth page scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Pulse radar */
+    @keyframes ping-slow {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+    .animate-ping-slow {
+      animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-cosmic-950 font-sans selection:bg-rose-500/30 selection:text-white">
+
+  <!-- Interactive Background Canvas (Stars, Nebula, Particles) -->
+  <canvas id="sky-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+  <div id="cursor-glow"></div>
+  <div class="fixed inset-0 bg-mesh pointer-events-none z-0"></div>
+
+  <!-- Persistent Floating Top Navigation -->
+  <header class="fixed top-5 inset-x-0 mx-auto w-[92%] max-w-5xl z-50">
+    <div class="glass-card rounded-full px-5 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+        <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold font-mono" id="nav-date">SPECIAL EDITION</span>
+      </div>
+
+      <div class="text-sm font-medium tracking-wide flex items-center gap-2">
+        <span class="text-slate-400">Honoring</span>
+        <span class="text-rose-400 font-semibold" id="nav-recipient">Someone Special</span>
+      </div>
+
+      <!-- Music Toggle (Synthesizer Chimes) -->
+      <button id="music-toggle" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-xs text-slate-300">
+        <span id="music-icon" class="text-sm">🎵</span>
+        <span id="music-label">Play Atmosphere</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN SCROLL CONTAINER -->
+  <main class="relative z-10 flex flex-col items-center">
+
+    <!-- ================= CHAPTER 1: THE PORTAL ================= -->
+    <section id="chapter-1" class="min-h-screen w-full flex flex-col items-center justify-center px-6 relative text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-white/15 text-xs text-rose-300 mb-8 uppercase tracking-widest animate-bounce">
+        <span>✨</span> A Personal Universe Created For You
+      </div>
+
+      <h1 class="text-5xl sm:text-7xl md:text-8xl font-serif font-bold tracking-tight text-gradient max-w-4xl leading-[1.1] mb-6">
+        Happy Birthday, <br />
+        <span class="font-cursive text-6xl sm:text-8xl md:text-9xl text-gold font-normal" id="hero-name">Beloved</span>
+      </h1>
+
+      <p class="text-slate-400 text-base sm:text-xl max-w-xl font-light leading-relaxed mb-10">
+        The cosmos aligned on this exact date to gift the universe someone irreplaceable, magnetic, and profoundly kind.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+        <a href="#chapter-2" class="group relative px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-violet-600 text-white font-medium text-sm tracking-wider shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40 hover:scale-105 active:scale-95 transition-all">
+          <span class="flex items-center gap-2">
+            <span>ENTER YOUR JOURNEY</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="absolute bottom-10 animate-bounce">
+        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+      </div>
+    </section>
+
+    <!-- ================= CHAPTER 2: BENTO GRID OF WONDERS ================= -->
+    <section id="chapter-2" class="min-h-screen w-full max-w-6xl px-6 py-28 flex flex-col justify-center">
+      <div class="mb-14 text-center md:text-left">
+        <p class="text-xs font-mono uppercase tracking-widest text-violet-400 mb-2">01 / The Constellation of You</p>
+        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-slate-100">Fragments of Why You Shine</h2>
+      </div>
+
+      <!-- Bento Grid Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Card 1: Time Elapsed / Orbit -->
+        <div class="glass-card rounded-3xl p-8 relative overflow-hidden group">
+          <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-violet-600/10 rounded-full blur-2xl group-hover:bg-violet-600/20 transition-all"></div>
+          <div class="text-3xl mb-4">🪐</div>
+          <span class="text-xs font-mono text-slate-400 uppercase tracking-wider">Cosmic Milestone</span>
+          <h3 class="text-2xl font-serif font-semibold text-slate-100 mt-2 mb-3">Solar Radiance</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Another year of you making the world noticeably warmer, effortlessly kinder, and so much more vibrant.
+          </p>
+          <div class="mt-6 pt-6 border-t border-white/5 flex items-baseline gap-2">
+            <span class="text-4xl font-bold font-serif text-gradient">365+</span>
+            <span class="text-xs text-slate-400">new days of wonder ahead</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Interactive Aura / Mood Selector -->
+        <div class="glass-card rounded-3xl p-8 md:col-span-2 relative overflow-hidden flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-xs font-mono text-slate-400 uppercase tracking-wider">Your Essence</span>
+              <h3 class="text-2xl font-serif font-semibold text-slate-100 mt-1">Tap To Feel Your Constellation</h3>
+            </div>
+            <span class="text-2xl">✨</span>
+          </div>
+
+          <!-- Interactive Attribute Buttons -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-6">
+            <button class="aura-btn active px-4 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-rose-400/50 text-left transition-all" data-title="Your Unfiltered Laughter" data-desc="The rare kind of sound that disarms a crowded room and turns ordinary moments into unforgettable memories.">
+              <div class="text-base mb-1">💫</div>
+              <div class="text-xs font-semibold text-slate-200">The Laugh</div>
+            </button>
+            <button class="aura-btn px-4 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-violet-400/50 text-left transition-all" data-title="Your Gentle Heart" data-desc="How intuitively you understand people without asking, giving warmth and comfort simply by existing nearby.">
+              <div class="text-base mb-1">🌸</div>
+              <div class="text-xs font-semibold text-slate-200">The Empathy</div>
+            </button>
+            <button class="aura-btn px-4 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-400/50 text-left transition-all" data-title="Your Fire & Grace" data-desc="The quiet tenacity with which you face storms and still come out smiling, gentle yet unbreakable.">
+              <div class="text-base mb-1">🔥</div>
+              <div class="text-xs font-semibold text-slate-200">The Spirit</div>
+            </button>
+            <button class="aura-btn px-4 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-400/50 text-left transition-all" data-title="The Magic in Your Eyes" data-desc="A universe full of curiosity, gentle mischief, and a depth that makes conversations last until 3 AM.">
+              <div class="text-base mb-1">👁️</div>
+              <div class="text-xs font-semibold text-slate-200">The Gaze</div>
+            </button>
+          </div>
+
+          <!-- Dynamic Text Box -->
+          <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 min-h-[75px] flex flex-col justify-center">
+            <h4 id="aura-title" class="text-sm font-semibold text-rose-300 mb-1">Your Unfiltered Laughter</h4>
+            <p id="aura-desc" class="text-xs text-slate-300 leading-relaxed">The rare kind of sound that disarms a crowded room and turns ordinary moments into unforgettable memories.</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Digital Polaroid Art -->
+        <div class="glass-card rounded-3xl p-6 flex flex-col items-center text-center">
+          <!-- Polaroid Simulation -->
+          <div class="w-full max-w-[240px] bg-white rounded-lg p-3 pb-6 shadow-2xl rotate-[-2deg] hover:rotate-0 transition-transform duration-300">
+            <div class="w-full aspect-square bg-slate-900 rounded relative overflow-hidden flex items-center justify-center border border-slate-800">
+              <!-- Celestial Art (Pure SVG) -->
+              <svg class="w-full h-full p-6 text-rose-400" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="35" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" class="animate-spin" style="animation-duration: 25s;"/>
+                <circle cx="50" cy="50" r="22" fill="url(#polaroid-grad)"/>
+                <path d="M50 20 L50 80 M20 50 L80 50" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                <circle cx="50" cy="50" r="6" fill="#FFF"/>
+                <defs>
+                  <radialGradient id="polaroid-grad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FB7185"/>
+                    <stop offset="100%" stop-color="#A855F7"/>
+                  </radialGradient>
+                </defs>
+              </svg>
+              <span class="absolute bottom-3 text-[10px] tracking-widest text-white/70 uppercase font-mono">Rare Soul</span>
+            </div>
+            <p class="font-cursive text-2xl text-slate-800 mt-3 font-semibold">Forever Radiant</p>
+          </div>
+          <p class="text-xs text-slate-400 mt-5">Proof that miracles exist in human form.</p>
+        </div>
+
+        <!-- Card 4: Secret Reason Vault -->
+        <div class="glass-card rounded-3xl p-8 md:col-span-2 flex flex-col justify-between relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-mono text-slate-400 uppercase tracking-wider">Infinite Archive</span>
+            <span class="text-xs px-2.5 py-1 rounded-full bg-violet-500/20 text-violet-300 font-mono">1 of ∞</span>
+          </div>
+          
+          <div class="my-4">
+            <h4 class="text-lg font-serif italic text-slate-200" id="reason-text">
+              "You make people feel safe being entirely themselves around you—a superpower only the gentlest souls possess."
+            </h4>
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <span class="text-xs text-slate-500">Tap to draw a secret note</span>
+            <button id="next-reason-btn" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-all flex items-center gap-2">
+              <span>Next Whisper</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= CHAPTER 3: THE CAKE & WISH CEREMONY ================= -->
+    <section id="chapter-3" class="min-h-screen w-full max-w-4xl px-6 py-28 flex flex-col items-center justify-center text-center relative">
+      <div class="mb-4">
+        <p class="text-xs font-mono uppercase tracking-widest text-rose-400 mb-2">02 / The Sacred Wish</p>
+        <h2 class="text-4xl sm:text-6xl font-serif font-bold text-slate-100">Make A Wish Into The Dark</h2>
+        <p class="text-slate-400 text-sm sm:text-base max-w-md mx-auto mt-3">
+          Focus on your deepest dream for this upcoming orbit. When you're ready, tap the flame to blow it out.
+        </p>
+      </div>
+
+      <!-- Interactive 3D Cake Visual -->
+      <div class="relative my-12 py-8 flex flex-col items-center">
+        <!-- The Candle & Flame -->
+        <div class="relative flex flex-col items-center z-20 mb-[-4px]">
+          <div id="candle-flame" class="flame" title="Click to blow out the candle"></div>
+          <!-- Wick -->
+          <div class="w-1 h-3 bg-neutral-700"></div>
+          <!-- Candle Body -->
+          <div class="w-4 h-16 bg-gradient-to-r from-rose-200 via-pink-100 to-rose-300 rounded-t-sm shadow-md border-t border-white/60 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-rose-300/30 to-rose-400/50"></div>
+          </div>
+        </div>
+
+        <!-- Cake Tier 1 (Top) -->
+        <div class="w-44 h-14 bg-gradient-to-r from-violet-900 via-fuchsia-950 to-violet-900 rounded-2xl border-t-2 border-pink-300/40 shadow-lg relative z-10 flex items-center justify-center">
+          <div class="absolute top-1 inset-x-2 h-2 rounded-full bg-pink-400/20"></div>
+          <div class="flex gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+          </div>
+        </div>
+
+        <!-- Cake Tier 2 (Middle) -->
+        <div class="w-64 h-16 bg-gradient-to-r from-indigo-950 via-purple-900 to-indigo-950 rounded-2xl border-t-2 border-purple-300/30 shadow-xl mt-[-6px] relative z-[5] flex items-center justify-center">
+          <div class="absolute top-1 inset-x-4 h-2.5 rounded-full bg-purple-400/20"></div>
+          <span class="text-xs font-mono tracking-widest text-white/30 uppercase">★ Happy Birthday ★</span>
+        </div>
+
+        <!-- Cake Tier 3 (Base) -->
+        <div class="w-80 h-20 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl border-t-2 border-rose-400/30 shadow-2xl mt-[-6px] relative flex items-center justify-center">
+          <div class="absolute top-1 inset-x-6 h-3 rounded-full bg-rose-500/20"></div>
+          <div class="w-full px-8 flex justify-between items-center text-rose-300/40 text-xs">
+            <span>✦</span><span>✦</span><span>✦</span><span>✦</span><span>✦</span>
+          </div>
+        </div>
+
+        <!-- Glass Pedestal / Plate -->
+        <div class="w-96 h-4 bg-white/10 rounded-full blur-[1px] border border-white/20 mt-[-2px] shadow-2xl"></div>
+      </div>
+
+      <!-- Wish Result Container -->
+      <div id="wish-status" class="min-h-[4rem] flex flex-col items-center justify-center transition-all">
+        <p class="text-xs uppercase tracking-widest text-slate-500 animate-pulse">Tap the glowing flame above to seal your wish</p>
+      </div>
+    </section>
+
+    <!-- ================= CHAPTER 4: THE WAX-SEALED LETTER ================= -->
+    <section id="chapter-4" class="min-h-screen w-full max-w-3xl px-6 py-28 flex flex-col items-center justify-center relative">
+      <div class="mb-10 text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-amber-400 mb-2">03 / Intimate Words</p>
+        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-slate-100">For Your Eyes Only</h2>
+      </div>
+
+      <!-- Letter Container -->
+      <div class="w-full relative">
+        <!-- Sealed Envelope State -->
+        <div id="envelope-closed" class="glass-card rounded-3xl p-10 sm:p-14 text-center flex flex-col items-center justify-center cursor-pointer transition-all">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-rose-600 to-red-800 flex items-center justify-center wax-seal mb-6 text-white text-2xl font-serif border border-rose-400/40 shadow-xl">
+            <span>✉️</span>
+          </div>
+          <h3 class="text-xl font-serif font-semibold text-slate-200 mb-2">A Letter Sealed With Care</h3>
+          <p class="text-slate-400 text-xs max-w-sm mb-6 leading-relaxed">
+            Every thought in this note is genuine, written without armor, and saved only for this moment.
+          </p>
+          <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs tracking-wider uppercase font-semibold">
+            Click to Break Wax Seal
+          </span>
+        </div>
+
+        <!-- Unfolded Letter State (Hidden Initially) -->
+        <div id="envelope-opened" class="hidden glass-card rounded-3xl p-8 sm:p-14 border border-rose-400/20 relative shadow-2xl">
+          <div class="absolute -top-3 right-8 px-4 py-1 rounded-full bg-rose-500/20 border border-rose-400/30 text-[11px] font-mono text-rose-300 tracking-wider">
+            UNSEALED
+          </div>
+
+          <div class="space-y-6 text-slate-200 text-base sm:text-lg leading-relaxed font-light">
+            <p class="font-serif text-2xl text-rose-300 italic" id="letter-salutation">
+              Dearest,
+            </p>
+
+            <p id="letter-p1">
+              If I could give you any gift today, it would be the superpower to see yourself through my eyes for just thirty seconds. You would see someone whose presence calms chaos, whose mind inspires intrigue, and whose laughter makes ordinary moments feel cinematic.
+            </p>
+
+            <p id="letter-p2">
+              Life moves in rushing waves, but having you in this universe makes everything steady. Thank you for your warmth, your ridiculous jokes, and the quiet beauty you bring to every single day without even realizing it.
+            </p>
+
+            <p id="letter-p3">
+              May this new trip around the sun bring you adventures that make your heart race, peace that lets your soul breathe, and all the quiet wonders you quietly pray for.
+            </p>
+
+            <div class="pt-6 border-t border-white/10 flex flex-col items-end">
+              <span class="text-xs text-slate-400 uppercase tracking-widest font-mono">With all my heart</span>
+              <span class="font-cursive text-3xl sm:text-4xl text-gold mt-1" id="letter-signature">Always Yours</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CHAPTER 5: CELESTIAL LANTERN FINALE ================= -->
+    <section id="chapter-5" class="min-h-screen w-full max-w-4xl px-6 py-28 flex flex-col items-center justify-center text-center relative">
+      <div class="w-16 h-16 rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-2xl mb-6 shadow-lg shadow-amber-400/10">
+        🏮
+      </div>
+
+      <p class="text-xs font-mono uppercase tracking-widest text-amber-400 mb-2">04 / The Grand Finale</p>
+      <h2 class="text-4xl sm:text-6xl font-serif font-bold text-slate-100 mb-4">Release Lanterns To The Stars</h2>
+      <p class="text-slate-400 text-sm sm:text-base max-w-md mx-auto mb-8">
+        Click anywhere on the screen or press the button below to launch luminous sky lanterns with your wishes into the digital cosmos.
+      </p>
+
+      <button id="release-lantern-btn" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-xl shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all mb-16">
+        Release A Sky Lantern 🏮
+      </button>
+
+      <!-- Replay / Loop Button -->
+      <div class="pt-12 border-t border-white/5 w-full flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <span>Crafted specifically with cosmic care & gentle code.</span>
+        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="hover:text-slate-300 transition-colors">
+          Back to Top ↑
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= LOGIC & INTERACTION ENGINE ================= -->
+  <script>
+    /**
+     * PERSONALIZATION CONFIGURATION
+     * Customize this object to tailor the experience to your recipient!
+     */
+    const CONFIG = {
+      recipientName: "Elena",            // The person this site is for
+      senderName: "Yours Truly",         // Your name or sweet sign-off
+      dateLabel: "OCTOBER 24 • ORBIT CELEBRATION",
+      reasons: [
+        "You make people feel safe being entirely themselves around you—a superpower only the gentlest souls possess.",
+        "Your taste in art, music, and the subtle beauties in life makes every conversation unforgettable.",
+        "You never hesitate to show genuine care, even when the rest of the world chooses to be cold.",
+        "The subtle spark in your eyes when you talk about something you are passionate about.",
+        "Because you are effortlessly, unapologetically, and breathtakingly you."
+      ]
+    };
+
+    // Apply configuration immediately to the DOM
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("nav-recipient").innerText = CONFIG.recipientName;
+      document.getElementById("nav-date").innerText = CONFIG.dateLabel;
+      document.getElementById("hero-name").innerText = CONFIG.recipientName;
+      document.getElementById("letter-salutation").innerText = `Dearest ${CONFIG.recipientName},`;
+      document.getElementById("letter-signature").innerText = CONFIG.senderName;
+      
+      initSkyCanvas();
+      initAudioEngine();
+      initAuraButtons();
+      initReasonVault();
+      initCakeCeremony();
+      initLetterWax();
+      initCursorGlow();
+      initLanterns();
+    });
+
+    /* ================= 1. SKY CANVAS & FIREWORKS ENGINE ================= */
+    let canvas, ctx;
+    let stars = [];
+    let lanterns = [];
+
+    function initSkyCanvas() {
+      canvas = document.getElementById("sky-canvas");
+      ctx = canvas.getContext("2d");
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      // Populate stars
+      const starCount = window.innerWidth < 768 ? 90 : 180;
+      stars = [];
+      for (let i = 0; i < starCount; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5 + 0.3,
+          alpha: Math.random() * 0.8 + 0.2,
+          speed: Math.random() * 0.015 + 0.005,
+          color: ['#FFFFFF', '#FEE2E2', '#DDD6FE', '#FEF3C7'][Math.floor(Math.random() * 4)]
+        });
+      }
+
+      requestAnimationFrame(renderSky);
+    }
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function renderSky() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw starry sky
+      for (let star of stars) {
+        star.alpha += star.speed;
+        if (star.alpha > 1 || star.alpha < 0.2) star.speed = -star.speed;
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = star.color;
+        ctx.globalAlpha = Math.max(0, Math.min(1, star.alpha));
+        ctx.shadowBlur = star.radius > 1 ? 8 : 0;
+        ctx.shadowColor = star.color;
+        ctx.fill();
+      }
+
+      // Draw floating lanterns
+      for (let i = lanterns.length - 1; i >= 0; i--) {
+        const l = lanterns[i];
+        l.y -= l.speedY;
+        l.x += Math.sin(l.wobble) * 0.6;
+        l.wobble += 0.02;
+
+        ctx.globalAlpha = l.alpha;
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = "#F59E0B";
+
+        // Lantern Body
+        ctx.fillStyle = "rgba(245, 158, 11, 0.85)";
+        ctx.beginPath();
+        ctx.roundRect(l.x - l.width / 2, l.y - l.height / 2, l.width, l.height, [4]);
+        ctx.fill();
+
+        // Inner glowing core
+        ctx.fillStyle = "#FFF7ED";
+        ctx.beginPath();
+        ctx.arc(l.x, l.y + l.height * 0.2, l.width * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Despawn once off top of screen
+        if (l.y < -50) lanterns.splice(i, 1);
+      }
+
+      ctx.globalAlpha = 1.0;
+      ctx.shadowBlur = 0;
+      requestAnimationFrame(renderSky);
+    }
+
+    /* ================= 2. WEB AUDIO API SYNTHESIZER (No external mp3) ================= */
+    let audioCtx = null;
+    let isPlaying = false;
+    let melodyInterval = null;
+
+    // Pentatonic scale frequencies for a dreamy ambient music box (C Major / A Minor celestial)
+    const NOTES = [
+      523.25, // C5
+      587.33, // D5
+      659.25, // E5
+      783.99, // G5
+      880.00, // A5
+      1046.50 // C6
+    ];
+
+    function initAudioEngine() {
+      const toggleBtn = document.getElementById("music-toggle");
+      const label = document.getElementById("music-label");
+
+      toggleBtn.addEventListener("click", () => {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        isPlaying = !isPlaying;
+
+        if (isPlaying) {
+          label.innerText = "Music: Playing";
+          toggleBtn.classList.add("border-rose-500/50", "text-rose-300");
+          startAmbientArpeggio();
+        } else {
+          label.innerText = "Music: Paused";
+          toggleBtn.classList.remove("border-rose-500/50", "text-rose-300");
+          stopAmbientArpeggio();
+        }
+      });
+    }
+
+    function playTone(freq, duration = 1.8) {
+      if (!audioCtx || audioCtx.state !== 'running') return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      // Music box envelope: instant ping, long gentle exponential decay
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function startAmbientArpeggio() {
+      let step = 0;
+      const melodySequence = [0, 2, 4, 1, 3, 5, 2, 4];
+      
+      melodyInterval = setInterval(() => {
+        const noteIndex = melodySequence[step % melodySequence.length];
+        playTone(NOTES[noteIndex], 2.2);
+
+        // Add subtle harmonic chord randomly
+        if (step % 2 === 0) {
+          setTimeout(() => {
+            playTone(NOTES[(noteIndex + 2) % NOTES.length] / 2, 2.5);
+          }, 300);
+        }
+
+        step++;
+      }, 750);
+    }
+
+    function stopAmbientArpeggio() {
+      clearInterval(melodyInterval);
+    }
+
+    function playBlowChime() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      // Magic chime sequence upon blowing candle
+      const chimeNotes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+      chimeNotes.forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 2.5), idx * 120);
+      });
+    }
+
+    /* ================= 3. BENTO AURA SWITCHER ================= */
+    function initAuraButtons() {
+      const buttons = document.querySelectorAll(".aura-btn");
+      const titleEl = document.getElementById("aura-title");
+      const descEl = document.getElementById("aura-desc");
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          buttons.forEach(b => b.classList.remove("active", "border-rose-400", "bg-white/10"));
+          btn.classList.add("active", "border-rose-400", "bg-white/10");
+
+          titleEl.style.opacity = '0';
+          descEl.style.opacity = '0';
+
+          setTimeout(() => {
+            titleEl.innerText = btn.getAttribute("data-title");
+            descEl.innerText = btn.getAttribute("data-desc");
+            titleEl.style.opacity = '1';
+            descEl.style.opacity = '1';
+          }, 200);
+        });
+      });
+    }
+
+    /* ================= 4. REASON VAULT ================= */
+    function initReasonVault() {
+      const nextBtn = document.getElementById("next-reason-btn");
+      const textEl = document.getElementById("reason-text");
+      let currentIndex = 0;
+
+      nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % CONFIG.reasons.length;
+        textEl.style.opacity = '0';
+        textEl.style.transform = 'translateY(8px)';
+
+        setTimeout(() => {
+          textEl.innerText = `"${CONFIG.reasons[currentIndex]}"`;
+          textEl.style.opacity = '1';
+          textEl.style.transform = 'translateY(0)';
+        }, 250);
+      });
+    }
+
+    /* ================= 5. CAKE CEREMONY (CANDLE BLOW) ================= */
+    function initCakeCeremony() {
+      const flame = document.getElementById("candle-flame");
+      const status = document.getElementById("wish-status");
+      let isBlown = false;
+
+      flame.addEventListener("click", () => {
+        if (isBlown) return;
+        isBlown = true;
+
+        // Extinguish flame
+        flame.classList.add("extinguished");
+
+        // Spawn smoke physics
+        spawnSmoke(flame);
+
+        // Sound chime
+        playBlowChime();
+
+        // Confetti explosion
+        confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#FB7185', '#A855F7', '#FBBF24', '#38BDF8', '#FFFFFF']
+        });
+
+        // Trigger wish message
+        setTimeout(() => {
+          status.innerHTML = `
+            <div class="glass-card px-8 py-5 rounded-2xl border border-rose-400/40 text-center animate-fade-in shadow-2xl">
+              <span class="text-2xl mb-1 block">✨🌟✨</span>
+              <h4 class="text-xl font-serif font-bold text-gradient">Your wish is cast into the cosmos!</h4>
+              <p class="text-xs text-slate-300 mt-1 max-w-sm">The stars have listened, and the universe is already conspiring to bring it to you.</p>
+            </div>
+          `;
+        }, 500);
+      });
+    }
+
+    function spawnSmoke(target) {
+      const rect = target.getBoundingClientRect();
+      for (let i = 0; i < 8; i++) {
+        const smoke = document.createElement("div");
+        smoke.className = "smoke";
+        document.body.appendChild(smoke);
+
+        const dx = (Math.random() - 0.5) * 60;
+        smoke.style.left = `${rect.left + rect.width / 2}px`;
+        smoke.style.top = `${rect.top}px`;
+        smoke.style.setProperty('--dx', `${dx}px`);
+        smoke.style.animation = `smokeDrift ${1.5 + Math.random()}s cubic-bezier(0.2, 0.8, 0.2, 1) forwards`;
+
+        setTimeout(() => smoke.remove(), 2500);
+      }
+    }
+
+    /* ================= 6. WAX SEALED ENVELOPE ================= */
+    function initLetterWax() {
+      const closedEnvelope = document.getElementById("envelope-closed");
+      const openedEnvelope = document.getElementById("envelope-opened");
+
+      closedEnvelope.addEventListener("click", () => {
+        closedEnvelope.style.transform = "scale(0.95)";
+        closedEnvelope.style.opacity = "0";
+
+        setTimeout(() => {
+          closedEnvelope.classList.add("hidden");
+          openedEnvelope.classList.remove("hidden");
+          openedEnvelope.style.opacity = "0";
+          openedEnvelope.style.transform = "translateY(20px)";
+
+          setTimeout(() => {
+            openedEnvelope.style.transition = "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
+            openedEnvelope.style.opacity = "1";
+            openedEnvelope.style.transform = "translateY(0)";
+          }, 50);
+
+          // Subtle celebratory sprinkle
+          confetti({
+            particleCount: 40,
+            spread: 50,
+            origin: { y: 0.7 }
+          });
+        }, 300);
+      });
+    }
+
+    /* ================= 7. CURSOR GLOW ================= */
+    function initCursorGlow() {
+      const glow = document.getElementById("cursor-glow");
+      window.addEventListener("mousemove", (e) => {
+        glow.style.left = `${e.clientX}px`;
+        glow.style.top = `${e.clientY}px`;
+      });
+    }
+
+    /* ================= 8. LANTERN SPAWN ================= */
+    function initLanterns() {
+      const btn = document.getElementById("release-lantern-btn");
+      
+      const spawnSingleLantern = (x) => {
+        lanterns.push({
+          x: x || Math.random() * (canvas.width - 100) + 50,
+          y: canvas.height + 20,
+          width: 22 + Math.random() * 8,
+          height: 32 + Math.random() * 10,
+          speedY: 1.2 + Math.random() * 1.5,
+          wobble: Math.random() * Math.PI,
+          alpha: 0.85 + Math.random() * 0.15
+        });
+      };
+
+      btn.addEventListener("click", (e) => {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => spawnSingleLantern(), i * 180);
+        }
+
+        confetti({
+          particleCount: 30,
+          spread: 45,
+          origin: { y: 0.85 }
+        });
+      });
+
+      // Also allow clicking chapter 5 to spawn lanterns on click
+      document.getElementById("chapter-5").addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") {
+          spawnSingleLantern(e.clientX);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
